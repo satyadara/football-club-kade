@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_next_event"
+            android:icon="@drawable/ic_event_note_black"
+            android:title="NEXT EVENT" />
+        <item
+            android:id="@+id/nav_last_event"
+            android:icon="@drawable/ic_event_busy_black"
+            android:title="LAST EVENT" />
+    </group>
+</menu>
