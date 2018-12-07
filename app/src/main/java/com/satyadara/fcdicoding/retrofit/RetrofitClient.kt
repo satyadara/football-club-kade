@@ -1,4 +1,4 @@
-package com.satyadara.football_club_dicoding.retrofit
+package com.satyadara.fcdicoding.retrofit
 
 import com.google.gson.GsonBuilder
 import retrofit.GsonConverterFactory

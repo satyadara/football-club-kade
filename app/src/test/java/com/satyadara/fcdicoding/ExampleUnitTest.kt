@@ -1,4 +1,4 @@
-package com.satyadara.football_club_dicoding
+package com.satyadara.fcdicoding
 
 import org.junit.Test
 

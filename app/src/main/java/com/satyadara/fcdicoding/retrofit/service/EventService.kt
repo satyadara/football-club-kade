@@ -1,7 +1,7 @@
-package com.satyadara.football_club_dicoding.retrofit.service
+package com.satyadara.fcdicoding.retrofit.service
 
-import com.satyadara.football_club_dicoding.model.ListEventResponse
-import com.satyadara.football_club_dicoding.model.TeamDetailResponse
+import com.satyadara.fcdicoding.model.ListEventResponse
+import com.satyadara.fcdicoding.model.TeamDetailResponse
 import retrofit.http.GET
 import retrofit.http.Query
 import rx.Observable

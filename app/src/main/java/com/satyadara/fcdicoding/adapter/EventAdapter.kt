@@ -1,18 +1,18 @@
-package com.satyadara.football_club_dicoding.adapter
+package com.satyadara.fcdicoding.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.satyadara.football_club_dicoding.DetailEventActivity
-import com.satyadara.football_club_dicoding.R
-import com.satyadara.football_club_dicoding.model.Event
+import com.satyadara.fcdicoding.detailevent.DetailEventActivity
+import com.satyadara.fcdicoding.R
+import com.satyadara.fcdicoding.model.Event
 import kotlinx.android.synthetic.main.item_football_event.view.*
 import org.jetbrains.anko.startActivity
 import java.util.*
 
-class EventAdapter(val context: Context, val items: ArrayList<Event>) :
+class EventAdapter(val context: Context, val items: ArrayList<Event>, val isLastEvent: Boolean) :
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): EventViewHolder {
         return EventViewHolder(LayoutInflater.from(context).inflate(R.layout.item_football_event, p0, false))
@@ -31,7 +31,7 @@ class EventAdapter(val context: Context, val items: ArrayList<Event>) :
         holder.tvTeamBScore.text = if (item.intAwayScore == null) "0" else item.intAwayScore.toString()
 
         holder.lView.setOnClickListener {
-            context.startActivity<DetailEventActivity>(DetailEventActivity.ITEM to item)
+            context.startActivity<DetailEventActivity>(DetailEventActivity.ITEM to item, DetailEventActivity.IS_LAST_EVENT to isLastEvent)
         }
     }
 
