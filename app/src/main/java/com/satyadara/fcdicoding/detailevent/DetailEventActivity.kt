@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.bumptech.glide.Glide
 import com.satyadara.fcdicoding.R
+import com.satyadara.fcdicoding.db.FavoriteEvent
 import com.satyadara.fcdicoding.model.Event
 import com.satyadara.fcdicoding.model.Team
 import kotlinx.android.synthetic.main.activity_detail_event.*
@@ -14,10 +15,9 @@ import org.jetbrains.anko.info
 import org.jetbrains.anko.toast
 
 class DetailEventActivity : AppCompatActivity(), AnkoLogger, DetailEventService.View {
-
     companion object {
         const val ITEM = "item"
-        const val IS_LAST_EVENT = "is_last_event"
+        const val FAV_ITEM = "fav_item"
     }
 
     lateinit var presenter: DetailEventService.Presenter
@@ -29,25 +29,21 @@ class DetailEventActivity : AppCompatActivity(), AnkoLogger, DetailEventService.
 
         presenter = DetailEventPresenter(this)
 
-        event = intent.getParcelableExtra(ITEM)
-
-        info { event.toString() }
-        title = event?.strEvent
-
-        setDetailEventText(event)
-        setStateFavorite(eventId = event?.idEvent!!)
-        setFavoriteIconVisibility(intent.getBooleanExtra(IS_LAST_EVENT, true))
-        presenter.loadBadgeTeams(event)
-
-        favorite_icon.setOnClickListener {
-            if (presenter.stateFavorite(event?.idEvent!!)) removeFavoriteEvent()
-            else setFavoriteEvent()
-
-            setStateFavorite(event?.idEvent!!)
+        if (intent.getBooleanExtra(FAV_ITEM, false)) {
+            val fav: FavoriteEvent = intent.getParcelableExtra(ITEM)
+            presenter.getEventDetailById(fav.idEvent)
+        } else {
+            event = intent.getParcelableExtra(ITEM)
+            setDetailEventText(event)
         }
+
     }
 
-    fun setDetailEventText(event: Event?) {
+    override fun setDetailEventText(event: Event?) {
+        if (event == null)   {
+            return
+        }
+        this.event = event
         tvDate.text = event?.dateEvent
         tvScore.text = "${event?.intHomeScore} vs ${event?.intAwayScore}"
         tvTeamA.text = event?.strHomeTeam?.replace(';', '\n')
@@ -66,6 +62,19 @@ class DetailEventActivity : AppCompatActivity(), AnkoLogger, DetailEventService.
         tvForwardB.text = event?.strAwayLineupForward?.replace(';', '\n')
         tvSubstitutesA.text = event?.strHomeLineupSubstitutes?.replace(';', '\n')
         tvSubstitutesB.text = event?.strAwayLineupSubstitutes?.replace(';', '\n')
+
+        info { event.toString() }
+        title = event?.strEvent
+
+        setStateFavorite(eventId = event?.idEvent!!)
+        presenter.loadBadgeTeams(event)
+
+        favorite_icon.setOnClickListener {
+            if (presenter.stateFavorite(event?.idEvent!!)) removeFavoriteEvent()
+            else setFavoriteEvent()
+
+            setStateFavorite(event?.idEvent!!)
+        }
     }
 
     override fun sendHomeBadgeTeam(team: Team) {

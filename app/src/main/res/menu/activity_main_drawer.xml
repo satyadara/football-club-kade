@@ -9,8 +9,12 @@
             android:icon="@drawable/ic_event_note_black"
             android:title="NEXT EVENT" />
         <item
-            android:id="@+id/nav_last_event"
-            android:icon="@drawable/ic_event_busy_black"
-            android:title="LAST EVENT" />
+                android:id="@+id/nav_last_event"
+                android:icon="@drawable/ic_event_busy_black"
+                android:title="LAST EVENT" />
+        <item
+                android:id="@+id/nav_fav"
+                android:icon="@drawable/ic_favorite_border_48dp"
+                android:title="FAVORITE" />
     </group>
 </menu>

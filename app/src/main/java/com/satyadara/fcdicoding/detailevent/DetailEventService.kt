@@ -6,6 +6,7 @@ import com.satyadara.fcdicoding.model.Team
 
 interface DetailEventService {
     interface Presenter {
+        fun getEventDetailById(idEvent: String)
         fun loadBadgeTeams(event: Event?)
         fun pushFavoriteEvent(event: Event?)
         fun removeFavoriteEvent(eventId: String)
@@ -13,6 +14,7 @@ interface DetailEventService {
     }
 
     interface View {
+        fun setDetailEventText(event: Event?)
         fun getContext(): Context
         fun sendHomeBadgeTeam(team: Team)
         fun sendAwayBadgeTeam(team: Team)

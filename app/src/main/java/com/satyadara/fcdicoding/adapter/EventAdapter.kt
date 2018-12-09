@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.item_football_event.view.*
 import org.jetbrains.anko.startActivity
 import java.util.*
 
-class EventAdapter(val context: Context, val items: ArrayList<Event>, val isLastEvent: Boolean) :
+class EventAdapter(val context: Context, val items: ArrayList<Event>) :
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): EventViewHolder {
         return EventViewHolder(LayoutInflater.from(context).inflate(R.layout.item_football_event, p0, false))
@@ -31,7 +31,7 @@ class EventAdapter(val context: Context, val items: ArrayList<Event>, val isLast
         holder.tvTeamBScore.text = if (item.intAwayScore == null) "0" else item.intAwayScore.toString()
 
         holder.lView.setOnClickListener {
-            context.startActivity<DetailEventActivity>(DetailEventActivity.ITEM to item, DetailEventActivity.IS_LAST_EVENT to isLastEvent)
+            context.startActivity<DetailEventActivity>(DetailEventActivity.ITEM to item)
         }
     }
 

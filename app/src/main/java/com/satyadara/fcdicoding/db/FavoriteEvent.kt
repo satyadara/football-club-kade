@@ -1,5 +1,9 @@
 package com.satyadara.fcdicoding.db
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class FavoriteEvent(
     val idFavorite: Long?,
     val idEvent: String,
@@ -8,7 +12,7 @@ data class FavoriteEvent(
     val strAwayTeam: String,
     val strHomeTeam: String,
     val strLeague: String
-) {
+) : Parcelable {
     companion object {
         const val TABLE_FAVORITE: String = "tbl_favorite"
         const val FAVORITE_ID: String = "fav_id"

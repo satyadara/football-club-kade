@@ -1,5 +1,6 @@
 package com.satyadara.fcdicoding.main
 
+import android.content.Context
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -11,6 +12,8 @@ import android.view.Menu
 import android.view.MenuItem
 import com.satyadara.fcdicoding.R
 import com.satyadara.fcdicoding.adapter.EventAdapter
+import com.satyadara.fcdicoding.adapter.FavEventAdapter
+import com.satyadara.fcdicoding.db.FavoriteEvent
 import com.satyadara.fcdicoding.model.Event
 import com.satyadara.fcdicoding.retrofit.RetrofitClient
 import com.satyadara.fcdicoding.retrofit.service.EventService
@@ -80,6 +83,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_last_event -> {
                 presenter.getLastEvent()
             }
+            R.id.nav_fav -> {
+                presenter.getFavEvent()
+            }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
@@ -91,8 +97,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.adapter = EventAdapter(
             this,
-            list,
-            true
+            list
         )
     }
 
@@ -101,8 +106,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mRecyclerView.layoutManager = LinearLayoutManager(this)
         mRecyclerView.adapter = EventAdapter(
             this,
-            list,
-            false
+            list
         )
     }
+
+    override fun sendFavEvent(list: ArrayList<FavoriteEvent>) {
+        title = "FAVORITE EVENT"
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        mRecyclerView.adapter = FavEventAdapter(
+            this,
+            list
+        )
+    }
+
+    override fun getContext(): Context {
+        return this
+    }
+
 }

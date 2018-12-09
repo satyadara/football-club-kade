@@ -7,13 +7,29 @@ import com.satyadara.fcdicoding.model.Event
 import com.satyadara.fcdicoding.retrofit.RetrofitClient
 import com.satyadara.fcdicoding.retrofit.service.EventService
 import org.jetbrains.anko.db.classParser
-import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.delete
+import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
 class DetailEventPresenter(val view: DetailEventService.View) : DetailEventService.Presenter {
+    override fun getEventDetailById(idEvent: String) {
+        val retrofit = RetrofitClient.getClient()
+        val service = retrofit.create(EventService::class.java)
+        service.detailEventById(idEvent)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { json ->
+                    val event = json.events!![0]
+                    view.setDetailEventText(event)
+                },
+                { error ->
+                    kotlin.error("Error tenan : $error")
+                }
+            )
+    }
 
     override fun loadBadgeTeams(event: Event?) {
         val retrofit = RetrofitClient.getClient()

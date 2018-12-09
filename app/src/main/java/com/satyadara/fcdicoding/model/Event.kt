@@ -56,4 +56,5 @@ data class Event(
     val strTVStation: String?,
     val strThumb: String?,
     val strTime: String?
-) : Parcelable
+) : Parcelable {
+}
