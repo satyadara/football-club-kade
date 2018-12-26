@@ -1,4 +1,4 @@
-package com.satyadara.football_club_dicoding
+package com.satyadara.fcdicoding
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4

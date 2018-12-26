@@ -5,7 +5,16 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DetailEventActivity">
+        tools:context=".detailevent.DetailEventActivity">
+
+    <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/favorite_icon"
+            android:src="@drawable/ic_favorite_48dp"
+            android:layout_margin="8dp"/>
 
     <TextView
             app:layout_constraintTop_toTopOf="parent"
@@ -16,7 +25,8 @@
             android:id="@+id/tvDate"
             android:text="@string/app_name"
             style="@style/CenterText"
-            android:textColor="#DDAA30"/>
+            android:textColor="#DDAA30" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/favorite_icon"/>
 
     <TextView
             android:id="@+id/tvScore"
@@ -33,7 +43,7 @@
 
     <LinearLayout
             android:id="@+id/linearA"
-            app:layout_constraintTop_toBottomOf="@id/tvDate"
+            app:layout_constraintTop_toBottomOf="@id/favorite_icon"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/tvScore"
             android:orientation="vertical"
@@ -56,7 +66,7 @@
 
     <LinearLayout
             android:id="@+id/linearB"
-            app:layout_constraintTop_toBottomOf="@id/tvDate"
+            app:layout_constraintTop_toBottomOf="@id/favorite_icon"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toRightOf="@id/tvScore"
             android:orientation="vertical"

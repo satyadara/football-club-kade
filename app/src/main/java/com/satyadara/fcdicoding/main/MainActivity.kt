@@ -1,7 +1,7 @@
-package com.satyadara.football_club_dicoding
+package com.satyadara.fcdicoding.main
 
+import android.content.Context
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -10,19 +10,23 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
-import com.satyadara.football_club_dicoding.adapter.EventAdapter
-import com.satyadara.football_club_dicoding.fragment.EventListFragment
-import com.satyadara.football_club_dicoding.model.Event
-import com.satyadara.football_club_dicoding.retrofit.RetrofitClient
-import com.satyadara.football_club_dicoding.retrofit.service.EventService
+import com.satyadara.fcdicoding.R
+import com.satyadara.fcdicoding.adapter.EventAdapter
+import com.satyadara.fcdicoding.adapter.FavEventAdapter
+import com.satyadara.fcdicoding.db.FavoriteEvent
+import com.satyadara.fcdicoding.model.Event
+import com.satyadara.fcdicoding.retrofit.RetrofitClient
+import com.satyadara.fcdicoding.retrofit.service.EventService
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MainService.View {
     lateinit var mRecyclerView: RecyclerView
+
+    lateinit var presenter: MainService.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,16 +34,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         mRecyclerView = recyclerView as RecyclerView
+        presenter = MainPresenter(this)
 
         val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this, drawer_layout, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        nextEvent()
+        presenter.getNextEvent()
     }
 
     override fun onBackPressed() {
@@ -71,10 +78,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mRecyclerView.adapter = null
         when (item.itemId) {
             R.id.nav_next_event -> {
-                nextEvent()
+                presenter.getNextEvent()
             }
             R.id.nav_last_event -> {
-                lastEvent()
+                presenter.getLastEvent()
+            }
+            R.id.nav_fav -> {
+                presenter.getFavEvent()
             }
         }
 
@@ -82,47 +92,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    private fun nextEvent() {
-        title = "NEXT EVENT"
-        val retrofit = RetrofitClient.getClient()
-        val service = retrofit.create(EventService::class.java)
-        service?.nextEvents("4328")!!
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { json ->
-                    val list: ArrayList<Event> = json.events as ArrayList<Event>
-                    mRecyclerView.layoutManager = LinearLayoutManager(this)
-                    mRecyclerView.adapter = EventAdapter(
-                        this,
-                        list
-                    )
-                },
-                { error ->
-                    kotlin.error("Error tenan : $error")
-                }
-            )
+    override fun sendLastEvent(list: ArrayList<Event>) {
+        title = "LAST EVENT"
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        mRecyclerView.adapter = EventAdapter(
+            this,
+            list
+        )
     }
 
-    private fun lastEvent() {
-        title = "LAST EVENT"
-        val retrofit = RetrofitClient.getClient()
-        val service = retrofit.create(EventService::class.java)
-        service?.lastEvents("4328")!!
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { json ->
-                    val list: ArrayList<Event> = json.events as ArrayList<Event>
-                    mRecyclerView.layoutManager = LinearLayoutManager(this)
-                    mRecyclerView.adapter = EventAdapter(
-                        this,
-                        list
-                    )
-                },
-                { error ->
-                    kotlin.error("Error tenan : $error")
-                }
-            )
+    override fun sendNextEvent(list: ArrayList<Event>) {
+        title = "NEXT EVENT"
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        mRecyclerView.adapter = EventAdapter(
+            this,
+            list
+        )
     }
+
+    override fun sendFavEvent(list: ArrayList<FavoriteEvent>) {
+        title = "FAVORITE EVENT"
+        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        mRecyclerView.adapter = FavEventAdapter(
+            this,
+            list
+        )
+    }
+
+    override fun getContext(): Context {
+        return this
+    }
+
 }

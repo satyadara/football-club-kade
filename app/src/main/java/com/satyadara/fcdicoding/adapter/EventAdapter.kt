@@ -1,13 +1,13 @@
-package com.satyadara.football_club_dicoding.adapter
+package com.satyadara.fcdicoding.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.satyadara.football_club_dicoding.DetailEventActivity
-import com.satyadara.football_club_dicoding.R
-import com.satyadara.football_club_dicoding.model.Event
+import com.satyadara.fcdicoding.detailevent.DetailEventActivity
+import com.satyadara.fcdicoding.R
+import com.satyadara.fcdicoding.model.Event
 import kotlinx.android.synthetic.main.item_football_event.view.*
 import org.jetbrains.anko.startActivity
 import java.util.*

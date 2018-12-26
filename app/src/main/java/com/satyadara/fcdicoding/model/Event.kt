@@ -1,4 +1,4 @@
-package com.satyadara.football_club_dicoding.model
+package com.satyadara.fcdicoding.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -56,4 +56,5 @@ data class Event(
     val strTVStation: String?,
     val strThumb: String?,
     val strTime: String?
-) : Parcelable
+) : Parcelable {
+}

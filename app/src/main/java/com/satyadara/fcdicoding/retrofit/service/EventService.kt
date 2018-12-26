@@ -1,7 +1,8 @@
-package com.satyadara.football_club_dicoding.retrofit.service
+package com.satyadara.fcdicoding.retrofit.service
 
-import com.satyadara.football_club_dicoding.model.ListEventResponse
-import com.satyadara.football_club_dicoding.model.TeamDetailResponse
+import com.satyadara.fcdicoding.model.ListEventResponse
+import com.satyadara.fcdicoding.model.TeamDetailResponse
+import retrofit.Call
 import retrofit.http.GET
 import retrofit.http.Query
 import rx.Observable
@@ -16,5 +17,8 @@ interface EventService {
 
     @GET("lookupteam.php")
     fun detailTeamById(@Query("id") id: String?): Observable<TeamDetailResponse>
+
+    @GET("lookupevent.php")
+    fun detailEventById(@Query("id") id: String?): Observable<ListEventResponse>
 
 }
